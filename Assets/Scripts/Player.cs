@@ -32,7 +32,17 @@ public class Player : MonoBehaviour
             Jump();
             m_CurForce = 0.0f;
         }
-        
+
+        ShowScale();
+    }
+
+    //蓄力表现,通过对y轴进行缩放
+    private void ShowScale()
+    {
+        float sc = 1 - (m_CurForce*0.5f/fMaxForce);
+        Vector3 currentScale = transform.localScale;
+        currentScale.y = 0.2f * sc;
+        transform.localScale = currentScale;
     }
 
     private void Jump()
