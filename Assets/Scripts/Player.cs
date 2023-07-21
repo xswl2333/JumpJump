@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         m_Rigidbody.AddForce(Vector3.up* m_CurForce);
-        m_Rigidbody.AddForce(Vector3.forward* m_CurForce);
+        m_Rigidbody.AddForce(m_Directiion * m_CurForce);
     }
 
     private GameObject GenerateBox()
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         m_Directiion = Random.Range(0, 2) == 1 ? Vector3.forward : Vector3.left; //[0,2)
 
         Vector3 pos=m_Directiion*m_Distance+transform.position;
-        pos.y = 0;
+        pos.y = fMaxHeight;//添加刚体之后自然下落效果
         box.transform.position = pos;
         box.transform.localScale = new Vector3(1, m_Height, 1);//只缩放y
         box.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
