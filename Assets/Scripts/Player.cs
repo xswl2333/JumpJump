@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //鼠标左键
+        GameObject obj=GetHitObjest();
 
         if(Input.GetMouseButton(0)) {
             m_CurForce+=Time.deltaTime*100.0f;
@@ -76,6 +77,32 @@ public class Player : MonoBehaviour
         box.transform.localScale = new Vector3(1, m_Height, 1);//只缩放y
         box.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
         
+        return null;
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log("enter"+collision.gameObject.tag);
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    Debug.Log("exit"+collision.gameObject.tag);
+    //}
+
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    Debug.Log("stay"+collision.gameObject.tag);
+    //}
+
+    private GameObject GetHitObjest()
+    {
+        RaycastHit hit;//射线检测可以避免，player和cube紧挨着的碰撞
+        if (Physics.Raycast(transform.position, Vector3.down,out hit, 0.2f))
+        {
+            Debug.Log(hit.collider.tag);
+        }
+
         return null;
     }
 

@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 1843365536}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -409,6 +409,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1231788597113687275, guid: 9b66babf71b7826498729e2d13c3cc19, type: 3}
       propertyPath: m_Name
+      value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 1231788597113687275, guid: 9b66babf71b7826498729e2d13c3cc19, type: 3}
+      propertyPath: m_TagString
       value: Cube
       objectReference: {fileID: 0}
     - target: {fileID: 1231788597113687287, guid: 9b66babf71b7826498729e2d13c3cc19, type: 3}
@@ -512,6 +516,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7263431001349501591, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263431001349501591, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7263431001349501594, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
