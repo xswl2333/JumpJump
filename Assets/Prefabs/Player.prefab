@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7263431001349501594}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,7 +228,7 @@ Transform:
   - {fileID: 7263431000851137256}
   - {fileID: 7263431000739031023}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7263431001349501589
 Rigidbody:
@@ -259,3 +259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fMaxForce: 500
+  Box: {fileID: 0}
+  fMinDistance: 1.2
+  fMaxDistance: 3
+  fMinHeight: 0.3
+  fMaxHeight: 2

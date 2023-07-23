@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -14,38 +15,75 @@ public class Player : MonoBehaviour
     public float fMinDistance = 1.2f;
     public float fMaxDistance = 3.0f;
     public float fMinHeight = 0.3f;
-    public float fMaxHeight = 2.0f;
+    public float fMaxHeight = 1.5f;
 
     private Vector3 m_Directiion = Vector3.forward;
     private float m_Distance = 0.0f;
     private float m_Height = 0.0f;
+
+    private GameObject m_CurCube = null;
+    private GameObject m_NextCube = null;
+
+    private int m_Score = 0;
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody=GetComponent<Rigidbody>();
-        GenerateBox();
+        m_NextCube=GenerateBox();
     }
 
     // Update is called once per frame
     void Update()
     {
         //鼠标左键
-        GameObject obj=GetHitObjest();
-
-        if(Input.GetMouseButton(0)) {
-            m_CurForce+=Time.deltaTime*100.0f;
-            if(m_CurForce > fMaxForce )
+        GameObject obj=GetHitObject();
+        //获取当前cube
+        if (obj != null)
+        {
+            if (obj.tag == "Cube")
             {
-                m_CurForce = fMaxForce;
+               if (m_CurCube == null)
+               {
+                    m_CurCube = obj;
+               }
+               else if(m_NextCube==obj)
+               {
+                    m_Score++;
+                    Debug.Log(m_Score);
+
+                    Destroy(m_CurCube);
+                    m_CurCube=m_NextCube;
+                    m_NextCube = GenerateBox();
+
+                    m_Rigidbody.Sleep();//刚体冻结一帧
+                    m_Rigidbody.WakeUp();
+               }
+
+                if (Input.GetMouseButton(0))
+                {
+                    m_CurForce += Time.deltaTime * 100.0f;
+                    if (m_CurForce > fMaxForce)
+                    {
+                        m_CurForce = fMaxForce;
+                    }
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    Jump();
+                    m_CurForce = 0.0f;
+                }
+
+                ShowScale();
+
+            }
+            else
+            {
+
             }
         }
-        else if(Input.GetMouseButtonUp(0))
-        {
-            Jump();
-            m_CurForce = 0.0f;
-        }
 
-        ShowScale();
+
+      
     }
 
     //蓄力表现,通过对y轴进行缩放
@@ -77,7 +115,7 @@ public class Player : MonoBehaviour
         box.transform.localScale = new Vector3(1, m_Height, 1);//只缩放y
         box.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
         
-        return null;
+        return box;
     }
 
     //private void OnCollisionEnter(Collision collision)
@@ -95,12 +133,26 @@ public class Player : MonoBehaviour
     //    Debug.Log("stay"+collision.gameObject.tag);
     //}
 
-    private GameObject GetHitObjest()
+    private GameObject GetHitObject()
     {
         RaycastHit hit;//射线检测可以避免，player和cube紧挨着的碰撞
         if (Physics.Raycast(transform.position, Vector3.down,out hit, 0.2f))
         {
             Debug.Log(hit.collider.tag);
+            return hit.collider.gameObject;
+        }
+        else
+        {
+            Vector3[] vOffests = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
+            foreach(Vector3 vof in vOffests)
+            {
+                //检测前后左右0.1范围内射线，保证加分
+                if (Physics.Raycast(transform.position+vof*0.1f, Vector3.down, out hit, 0.2f))
+                {
+                    Debug.Log(hit.collider.tag);
+                    return hit.collider.gameObject;
+                }
+            }
         }
 
         return null;
