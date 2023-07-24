@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public float fMinDistance = 1.2f;
     public float fMaxDistance = 3.0f;
     public float fMinHeight = 0.3f;
-    public float fMaxHeight = 1.5f;
+    public float fMaxHeight = 1.2f;
 
     private Vector3 m_Directiion = Vector3.forward;
     private float m_Distance = 0.0f;
@@ -25,11 +25,15 @@ public class Player : MonoBehaviour
     private GameObject m_NextCube = null;
 
     private int m_Score = 0;
+
+    private Vector3 m_CameraOffest = Vector3.zero;
+    private GameObject m_Plane = null;
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody=GetComponent<Rigidbody>();
-        m_NextCube=GenerateBox();
+        m_Plane = GameObject.FindGameObjectWithTag("Plane");
+        m_NextCube =GenerateBox();
     }
 
     // Update is called once per frame
@@ -45,6 +49,7 @@ public class Player : MonoBehaviour
                if (m_CurCube == null)
                {
                     m_CurCube = obj;
+                    m_CameraOffest = Camera.main.transform.position - m_CurCube.transform.position;//初次的差值
                }
                else if(m_NextCube==obj)
                {
@@ -57,7 +62,9 @@ public class Player : MonoBehaviour
 
                     m_Rigidbody.Sleep();//刚体冻结一帧
                     m_Rigidbody.WakeUp();
-               }
+
+                   
+                }
 
                 if (Input.GetMouseButton(0))
                 {
@@ -73,7 +80,10 @@ public class Player : MonoBehaviour
                     m_CurForce = 0.0f;
                 }
 
+
+              
                 ShowScale();
+                MoveCameraAndPlane();
 
             }
             else
@@ -84,6 +94,16 @@ public class Player : MonoBehaviour
 
 
       
+    }
+
+    private void MoveCameraAndPlane()
+    {
+        //Camera.main.transform.position = m_CurCube.transform.position + m_CameraOffest;//新立方体加上固定偏移量
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
+           m_CurCube.transform.position + m_CameraOffest, Time.deltaTime * 2);
+        Vector3 pos = m_CurCube.transform.position;
+        pos.y = 0;
+        m_Plane.transform.position = pos;
     }
 
     //蓄力表现,通过对y轴进行缩放
@@ -109,7 +129,12 @@ public class Player : MonoBehaviour
         m_Height=Random.Range(fMinHeight, fMaxHeight);
         m_Directiion = Random.Range(0, 2) == 1 ? Vector3.forward : Vector3.left; //[0,2)
 
-        Vector3 pos=m_Directiion*m_Distance+transform.position;
+        Vector3 pos = Vector3.zero;
+        if (m_CurCube == null)
+            pos = m_Directiion * m_Distance + transform.position;
+        else
+            pos = m_Directiion * m_Distance + m_CurCube.transform.position;
+
         pos.y = fMaxHeight;//添加刚体之后自然下落效果
         box.transform.position = pos;
         box.transform.localScale = new Vector3(1, m_Height, 1);//只缩放y
