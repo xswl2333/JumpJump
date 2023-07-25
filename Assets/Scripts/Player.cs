@@ -28,10 +28,13 @@ public class Player : MonoBehaviour
 
     private Vector3 m_CameraOffest = Vector3.zero;
     private GameObject m_Plane = null;
+
+    private Animator m_Animator = null;
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody=GetComponent<Rigidbody>();
+        m_Animator = GetComponent<Animator>();
         m_Plane = GameObject.FindGameObjectWithTag("Plane");
         m_NextCube =GenerateBox();
     }
@@ -63,7 +66,10 @@ public class Player : MonoBehaviour
                     m_Rigidbody.Sleep();//∏’ÃÂ∂≥Ω·“ª÷°
                     m_Rigidbody.WakeUp();
 
-                   
+
+                    m_Animator.SetBool("Forward", false);
+                    m_Animator.SetBool("Left", false);
+
                 }
 
                 if (Input.GetMouseButton(0))
@@ -119,6 +125,12 @@ public class Player : MonoBehaviour
     {
         m_Rigidbody.AddForce(Vector3.up* m_CurForce);
         m_Rigidbody.AddForce(m_Directiion * m_CurForce);
+
+        if (m_Directiion == Vector3.forward)
+            m_Animator.SetBool("Forward", true);
+        else
+            m_Animator.SetBool("Left", true);
+
     }
 
     private GameObject GenerateBox()
