@@ -24,17 +24,19 @@ public class Player : MonoBehaviour
     private GameObject m_CurCube = null;
     private GameObject m_NextCube = null;
 
-    private int m_Score = 0;
 
     private Vector3 m_CameraOffest = Vector3.zero;
     private GameObject m_Plane = null;
 
     private Animator m_Animator = null;
+
+    private UIManager m_UI = null;
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody=GetComponent<Rigidbody>();
         m_Animator = GetComponent<Animator>();
+        m_UI = GetComponent<UIManager>();
         m_Plane = GameObject.FindGameObjectWithTag("Plane");
         m_NextCube =GenerateBox();
     }
@@ -56,8 +58,7 @@ public class Player : MonoBehaviour
                }
                else if(m_NextCube==obj)
                {
-                    m_Score++;
-                    Debug.Log(m_Score);
+                    m_UI.Addsource(1);
 
                     Destroy(m_CurCube);
                     m_CurCube=m_NextCube;
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
                     m_CurForce = 0.0f;
                 }
 
+                m_UI.ShowPower(m_CurForce, fMaxForce);
 
               
                 ShowScale();
@@ -94,7 +96,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-
+                m_UI.SetGameVoer(true);
             }
         }
 
