@@ -31,12 +31,21 @@ public class Player : MonoBehaviour
     private Animator m_Animator = null;
 
     private UIManager m_UI = null;
+
+    private AudioSource m_AudioPlay = null;
+
+    public AudioClip PressAudio = null;
+    public AudioClip JumpAudio = null;
+    public AudioClip DownAudio = null;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody=GetComponent<Rigidbody>();
         m_Animator = GetComponent<Animator>();
         m_UI = GetComponent<UIManager>();
+        m_AudioPlay = GetComponent<AudioSource>();
+
         m_Plane = GameObject.FindGameObjectWithTag("Plane");
         m_NextCube =GenerateBox();
     }
@@ -53,11 +62,13 @@ public class Player : MonoBehaviour
             {
                if (m_CurCube == null)
                {
+                    PlayAudio(DownAudio);
                     m_CurCube = obj;
                     m_CameraOffest = Camera.main.transform.position - m_CurCube.transform.position;//³õ´ÎµÄ²îÖµ
                }
                else if(m_NextCube==obj)
                {
+                    PlayAudio(DownAudio);
                     m_UI.Addsource(1);
 
                     Destroy(m_CurCube);
@@ -80,6 +91,7 @@ public class Player : MonoBehaviour
                     {
                         m_CurForce = fMaxForce;
                     }
+                    PlayAudio(PressAudio);
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
@@ -125,6 +137,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        PlayAudio(JumpAudio);
         m_Rigidbody.AddForce(Vector3.up* m_CurForce);
         m_Rigidbody.AddForce(m_Directiion * m_CurForce);
 
@@ -195,6 +208,14 @@ public class Player : MonoBehaviour
         }
 
         return null;
+    }
+
+
+    private void PlayAudio(AudioClip clp)
+    {
+        m_AudioPlay.Stop();
+        m_AudioPlay.clip= clp;
+        m_AudioPlay.Play();
     }
 
 }
