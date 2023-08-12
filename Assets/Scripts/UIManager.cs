@@ -66,4 +66,10 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void setPowerShow(bool show=true)
+    {
+         //power.enabled= show;//²»ÉúÐ§
+         power.gameObject.SetActive(show);
+    }
+
 }

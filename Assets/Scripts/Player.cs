@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
                {
                     PlayAudio(DownAudio);
                     m_UI.Addsource(1);
+                    m_UI.setPowerShow(true);
 
                     Destroy(m_CurCube);
                     m_CurCube=m_NextCube;
@@ -97,6 +98,7 @@ public class Player : MonoBehaviour
                 {
                     Jump();
                     m_CurForce = 0.0f;
+                    m_UI.setPowerShow(false);
                 }
 
                 m_UI.ShowPower(m_CurForce, fMaxForce);
@@ -217,5 +219,6 @@ public class Player : MonoBehaviour
         m_AudioPlay.clip= clp;
         m_AudioPlay.Play();
     }
+
 
 }
