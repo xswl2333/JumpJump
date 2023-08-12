@@ -141,7 +141,9 @@ public class Player : MonoBehaviour
     {
         PlayAudio(JumpAudio);
         m_Rigidbody.AddForce(Vector3.up* m_CurForce);
-        m_Rigidbody.AddForce(m_Directiion * m_CurForce);
+        Vector3 dir=m_NextCube.transform.position-transform.position;//终点-起点
+        dir.y = 0;//朝向下一个方块的中心，去除y方向的差别
+        m_Rigidbody.AddForce(dir.normalized * m_CurForce);//归一化
 
         if (m_Directiion == Vector3.forward)
             m_Animator.SetBool("Forward", true);

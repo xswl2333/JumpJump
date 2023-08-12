@@ -623,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.12730418, y: -0.12348219, z: -0.007161637, w: 0.9841212}
-  m_LocalPosition: {x: 0.893, y: 2.893, z: -3.764}
+  m_LocalPosition: {x: 1.096, y: 3.19, z: -3.223}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1785,16 +1785,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 4f4378e6ce777084f8bb03748113b721, type: 3}
     - target: {fileID: 7263431001349501594, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
+      propertyPath: fMaxForce
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263431001349501594, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
       propertyPath: PressAudio
       value: 
       objectReference: {fileID: 8300000, guid: 4f4378e6ce777084f8bb03748113b721, type: 3}
     - target: {fileID: 7263431001349501594, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
       propertyPath: fMaxHeight
-      value: 2
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 7263431001349501594, guid: 43e80741909ffa14fab3fadbfe2b50bb, type: 3}
       propertyPath: fMinHeight
-      value: 0.3
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
